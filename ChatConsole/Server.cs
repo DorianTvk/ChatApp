@@ -1,10 +1,10 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using ChatApp.Net.IO;
+using ChatConsole.Net.IO;
 
 
 namespace ChatConsole

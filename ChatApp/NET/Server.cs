@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using ChatApp.Net.IO;
 
-namespace ChatClient.Net
+namespace ChatApp.Net
 {
     class Server
     {
@@ -14,28 +9,29 @@ namespace ChatClient.Net
         public PacketReader PacketReader;
         public event Action connectedEvent;
         public event Action msgReceivedEvent;
-        public event Action userDisconnectedEvent;
+        public event Action userDisconnectEvent;
         public Server()
         {
             _client = new TcpClient();
         }
-
         public void ConnectToServer(string username)
         {
-            if (!_client.Connected) 
+            if (!_client.Connected)
             {
                 _client.Connect("127.0.0.1", 7891);
                 PacketReader = new PacketReader(_client.GetStream());
-
                 ReadPackets();
-                if (!string.IsNullOrEmpty(username)){
+                if (!string.IsNullOrEmpty(username))
+                {
                     var connectPacket = new PacketBuilder();
                     connectPacket.WriteOpCode(0);
                     connectPacket.WriteMessage(username);
                     _client.Client.Send(connectPacket.GetPacketBytes());
                 }
 
+
             }
+
         }
 
         private void ReadPackets()
@@ -54,7 +50,7 @@ namespace ChatClient.Net
                             msgReceivedEvent?.Invoke();
                             break;
                         case 10:
-                            userDisconnectedEvent?.Invoke();
+                            userDisconnectEvent?.Invoke();
                             break;
 
                         default:
@@ -62,6 +58,8 @@ namespace ChatClient.Net
                             break;
                     }
                 }
+
+
             });
         }
 

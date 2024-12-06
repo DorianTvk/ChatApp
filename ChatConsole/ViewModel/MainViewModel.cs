@@ -1,4 +1,5 @@
-﻿using ChatConsole.Model;
+﻿using ChatConsole;
+using ChatConsole.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

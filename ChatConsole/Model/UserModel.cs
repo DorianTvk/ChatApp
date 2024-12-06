@@ -8,7 +8,7 @@ namespace ChatConsole.Model
 {
     class UserModel
     {
-        public string Username { get; set; } = string.Empty;
-        public string UID { get; set; } = string.Empty;
+        public string Username { get; set; }
+        public string UID { get; set; }
     }
 }

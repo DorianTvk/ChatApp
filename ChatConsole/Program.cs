@@ -1,6 +1,5 @@
-﻿using ChatApp.Net.IO;
+﻿﻿using ChatConsole.Net.IO;
 using ChatConsole;
-using ChatApp;
 using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;

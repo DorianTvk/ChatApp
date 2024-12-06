@@ -1,34 +1,25 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net.Sockets;
 using System.Text;
 
-namespace ChatApp.Net.IO
+namespace ChatConsole.Net.IO;
+
+public class PacketReader : BinaryReader
 {
-    class PacketReader : BinaryReader
+    private NetworkStream _ns;
+    public PacketReader(NetworkStream ns) : base(ns)
     {
-        private NetworkStream _ns;
+        _ns = ns;
+    }
 
-        public PacketReader(NetworkStream ns) : base(ns)
-        {
-            _ns = ns;
-        }
+    public string ReadMessage()
+    {
+        byte[] msgBuffer;
+        var length = ReadInt32();
+        msgBuffer = new byte[length];
+        _ns.Read(msgBuffer, 0, length);
 
-        public string ReadMessage()
-        {
-            var length = ReadInt32();
-            if (length <= 0) return string.Empty; // Check if the length is valid
-
-            byte[] msgBuffer = new byte[length];
-            int totalRead = 0;
-            while (totalRead < length)
-            {
-                int bytesRead = _ns.Read(msgBuffer, totalRead, length - totalRead);
-                if (bytesRead == 0) throw new IOException("Connection closed prematurely."); // Handle closed connection
-                totalRead += bytesRead;
-            }
-
-            return Encoding.UTF8.GetString(msgBuffer);
-        }
+        var msg = Encoding.ASCII.GetString(msgBuffer);
+        return msg;
     }
 }
